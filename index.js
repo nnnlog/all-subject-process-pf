@@ -14,14 +14,16 @@ for (let file of fs.readdirSync(`${__dirname}/res`)) {
 
 	let json = JSON.parse(fs.readFileSync(`${__dirname}/res/${file}`, "utf-8"));
 
-	let pf = [];
+	let pf = new Set();
 	for (let num in json) {
 		if (json[num] === null) continue;
 		if (json[num].syllabus === null) continue;
 		if (json[num].syllabus.SCALE_TEXT === undefined) continue;
-		if (json[num].syllabus.SCALE_TEXT.indexOf("Pass") !== -1) pf.push(num);
+		if (json[num].syllabus.SCALE_TEXT.indexOf("Pass") !== -1) pf.add(num.slice(0, -2));
 	}
 
 	console.log(year, semester, "end");
-	fs.writeFile(`${__dirname}/final/pf_${year}-${semester}.json`, JSON.stringify(pf), () => {});
+	fs.writeFile(`${__dirname}/final/pf_${year}-${semester}.json`, JSON.stringify(Array(...pf.values())), () => {});
 }
+
+fs.writeFile(`${__dirname}/final/info.txt`, Date.now().toString(), () => {});
