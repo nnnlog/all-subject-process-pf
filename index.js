@@ -9,6 +9,7 @@ fs.mkdirSync(`${__dirname}/final`);
 
 for (let file of fs.readdirSync(`${__dirname}/res`)) {
 	let [year, semester] = file.slice("res_".length, -5).split("-");
+	semester = semester.replace(/ /g, "");
 	console.log(year, semester, "start");
 
 	let json = JSON.parse(fs.readFileSync(`${__dirname}/res/${file}`, "utf-8"));
